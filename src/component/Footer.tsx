@@ -11,13 +11,17 @@ const oswald = Oswald({
 
 const Footer = () => {
   return (
-    <section className="container mx-auto">
-      <div className="flex justify-between items-center py-12">
-        <Link href="./" className="flex items-center gap-2">
-          <Image src={Logo} alt="fitlog logo"></Image>
+    <section className="container mx-auto px-4">
+      <div className="flex flex-col items-center justify-between gap-4 py-10 text-center sm:flex-row sm:text-left">
+        <Link href="/" className="flex items-center gap-2">
+          <Image src={Logo} alt="FitLog logo" />
+
           <h4 className={`${oswald.variable} text-xl font-bold`}>FITLOG</h4>
         </Link>
-        <p>© 2026 FitLog — Workout Library. Train hard, log honest.</p>
+
+        <p className="text-xs text-slate-400">
+          © 2026 FitLog — Workout Library. Train hard, log honest.
+        </p>
       </div>
     </section>
   );

@@ -21,9 +21,9 @@ const Navbar = () => {
     <>
       <li>
         <Link
-          href="/workouts"
+          href="/"
           className={
-            pathname === "/workouts"
+            pathname === "/"
               ? "text-[#ccff00] bg-[#1A2312] rounded-2xl font-semibold"
               : "text-gray-400"
           }
