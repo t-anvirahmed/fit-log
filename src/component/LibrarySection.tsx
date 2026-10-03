@@ -24,7 +24,6 @@ export default function LibrarySection() {
     loadData();
   }, []);
 
-  // Loading state
   if (loading) {
     return (
       <section className="container mx-auto px-4 py-10">
@@ -37,7 +36,6 @@ export default function LibrarySection() {
 
   return (
     <section id="library" className="container mx-auto px-4 py-10">
-      {/* Section Heading */}
       <div className="mb-8">
         <h2 className="text-3xl font-bold">THE LIBRARY</h2>
         <p className="mt-2 text-base-content/60">
@@ -45,7 +43,6 @@ export default function LibrarySection() {
         </p>
       </div>
 
-      {/* Workout Cards */}
       {workouts.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
           {workouts.map((workout) => (
