@@ -5,39 +5,27 @@ import { Workout } from "@/types";
 import { getAllWorkouts } from "@/utils/api";
 import WorkoutCard from "./WorkoutCard";
 
-export default function LibrarySection() {
+const LibrarySection = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadData() {
+    const loadData = async () => {
       try {
         const data = await getAllWorkouts();
         setWorkouts(data);
       } catch (error) {
         console.error("Failed to load workouts:", error);
-      } finally {
-        setLoading(false);
       }
-    }
+    };
 
     loadData();
   }, []);
-
-  if (loading) {
-    return (
-      <section className="container mx-auto px-4 py-10">
-        <div className="flex min-h-60 items-center justify-center">
-          <span className="loading loading-spinner loading-lg text-accent"></span>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="library" className="container mx-auto px-4 py-10">
       <div className="mb-8">
         <h2 className="text-3xl font-bold">THE LIBRARY</h2>
+
         <p className="mt-2 text-base-content/60">
           Twelve lifts covering every major muscle group.
         </p>
@@ -56,4 +44,6 @@ export default function LibrarySection() {
       )}
     </section>
   );
-}
+};
+
+export default LibrarySection;

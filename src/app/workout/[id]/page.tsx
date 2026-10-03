@@ -12,10 +12,10 @@ type Params = Promise<{ id: string }>;
 
 const WorkoutDetails = ({ params }: { params: Params }) => {
   const { id } = use(params);
+
   const { plan, addToPlan, addToSaved } = usePlan();
 
   const [workout, setWorkout] = useState<Workout | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadWorkout = async () => {
@@ -24,21 +24,11 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
         setWorkout(data);
       } catch (error) {
         console.error("Failed to load workout:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
     loadWorkout();
   }, [id]);
-
-  if (loading) {
-    return (
-      <main className="container mx-auto flex min-h-[60vh] items-center justify-center px-4">
-        <span className="loading loading-spinner loading-lg text-accent"></span>
-      </main>
-    );
-  }
 
   if (!workout) {
     return (
@@ -55,6 +45,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
   }
 
   const isPlanFull = plan.length >= 5;
+
   const isAlreadyInPlan = plan.some((item) => item.id === workout.id);
 
   return (
@@ -69,6 +60,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
             className="h-auto w-full rounded-2xl object-cover"
           />
         </div>
+
         <div className="w-full">
           <h1 className="text-3xl font-bold uppercase sm:text-4xl lg:text-5xl">
             {workout.name}
@@ -77,6 +69,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
           <p className="mt-4 leading-relaxed text-slate-400">
             {workout.description}
           </p>
+
           <div className="mt-6 flex flex-wrap gap-2">
             {workout.muscleGroups.map((muscle) => (
               <span
@@ -87,9 +80,11 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
               </span>
             ))}
           </div>
+
           <div className="mt-6 rounded-2xl bg-base-300 p-4 sm:p-6">
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Equipment</span>
+
               <span className="text-right font-medium">
                 {workout.equipment}
               </span>
@@ -99,6 +94,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
 
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Difficulty</span>
+
               <span className="font-medium">{workout.difficulty}</span>
             </div>
 
@@ -106,6 +102,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
 
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Sets</span>
+
               <span className="font-medium">{workout.sets}</span>
             </div>
 
@@ -113,6 +110,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
 
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Reps</span>
+
               <span className="font-medium">{workout.reps}</span>
             </div>
 
@@ -120,6 +118,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
 
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Duration</span>
+
               <span className="font-medium">{workout.duration} min</span>
             </div>
 
@@ -127,6 +126,7 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
 
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Calories</span>
+
               <span className="font-medium">{workout.caloriesBurned}</span>
             </div>
 
@@ -134,9 +134,11 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
 
             <div className="flex justify-between gap-4">
               <span className="text-base-content/60">Rating</span>
+
               <span className="font-medium">{workout.rating}</span>
             </div>
           </div>
+
           <div className="mt-8">
             <h2 className="text-xl font-bold sm:text-2xl">Instructions</h2>
 
@@ -144,7 +146,6 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
               {workout.instructions.map((instruction, index) => (
                 <li key={index} className="flex gap-3">
                   <span className="shrink-0">{index + 1}.</span>
-
                   <p className="text-sm leading-relaxed text-slate-400">
                     {instruction}
                   </p>
@@ -159,12 +160,14 @@ const WorkoutDetails = ({ params }: { params: Params }) => {
               className="btn rounded-2xl bg-[#ccff00] text-black hover:bg-[#b8e600] disabled:bg-base-300 disabled:text-base-content/40"
             >
               <IoMdAdd />
+
               {isAlreadyInPlan
                 ? "Already in Plan"
                 : isPlanFull
                   ? "Plan Full"
                   : "Add to today's plan"}
             </button>
+
             <button
               onClick={() => addToSaved(workout)}
               className="btn rounded-2xl border border-base-300 bg-transparent hover:border-none hover:bg-[#ccff00] hover:text-black"

@@ -1,17 +1,22 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+
 import { Workout, PlanWorkout } from "@/types";
+
 import { toast } from "react-toastify";
 
 interface PlanContextType {
   plan: PlanWorkout[];
+
   saved: Workout[];
 
   addToPlan: (workout: Workout) => void;
+
   addToSaved: (workout: Workout) => void;
 
   removeFromPlan: (id: number) => void;
+
   removeFromSaved: (id: number) => void;
 
   markAsDone: (id: number) => void;
@@ -29,21 +34,41 @@ export function PlanProvider({ children }: { children: React.ReactNode }) {
   const [plan, setPlan] = useState<PlanWorkout[]>([]);
   const [saved, setSaved] = useState<Workout[]>([]);
 
-  // Add a workout to today's plan
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    const storedPlan = localStorage.getItem("fitlog-plan");
+    const storedSaved = localStorage.getItem("fitlog-saved");
+
+    if (storedPlan) {
+      setPlan(JSON.parse(storedPlan));
+    }
+    if (storedSaved) {
+      setSaved(JSON.parse(storedSaved));
+    }
+    setIsHydrated(true);
+  }, []);
+  useEffect(() => {
+    if (isHydrated) {
+      localStorage.setItem("fitlog-plan", JSON.stringify(plan));
+    }
+  }, [plan, isHydrated]);
+  useEffect(() => {
+    if (isHydrated) {
+      localStorage.setItem("fitlog-saved", JSON.stringify(saved));
+    }
+  }, [saved, isHydrated]);
   const addToPlan = (workout: Workout) => {
-    // Maximum of 5 workouts
     if (plan.length >= 5) {
       toast.error("Today's plan is full! (Max 5)");
       return;
     }
 
-    // Prevent duplicate workouts
     if (plan.some((item) => item.id === workout.id)) {
       toast.error("Already in today's plan!");
       return;
     }
 
-    // Add workout with isDone initially set to false
     setPlan((prev) => [
       ...prev,
       {
@@ -55,34 +80,25 @@ export function PlanProvider({ children }: { children: React.ReactNode }) {
     toast.success(`${workout.name} added to plan! 💪`);
   };
 
-  // Add a workout to saved workouts
   const addToSaved = (workout: Workout) => {
-    // Prevent duplicate saved workouts
     if (saved.some((item) => item.id === workout.id)) {
       toast.error("Already saved!");
       return;
     }
-
     setSaved((prev) => [...prev, workout]);
-
     toast.success(`${workout.name} saved for later!`);
   };
 
-  // Remove a workout from today's plan
   const removeFromPlan = (id: number) => {
     setPlan((prev) => prev.filter((item) => item.id !== id));
-
     toast.success("Removed from plan");
   };
 
-  // Remove a workout from saved workouts
   const removeFromSaved = (id: number) => {
     setSaved((prev) => prev.filter((item) => item.id !== id));
-
     toast.success("Removed from saved");
   };
 
-  // Mark a planned workout as completed
   const markAsDone = (id: number) => {
     setPlan((prev) =>
       prev.map((item) =>
@@ -98,12 +114,9 @@ export function PlanProvider({ children }: { children: React.ReactNode }) {
     toast.success("Workout done! Great job! 🎉");
   };
 
-  // Calculate summary information from the current plan
   const metrics = {
     exercises: plan.length,
-
     minutes: plan.reduce((total, item) => total + item.duration, 0),
-
     calories: plan.reduce((total, item) => total + item.caloriesBurned, 0),
   };
 
@@ -123,10 +136,8 @@ export function PlanProvider({ children }: { children: React.ReactNode }) {
 
 export function usePlan() {
   const context = useContext(PlanContext);
-
   if (!context) {
     throw new Error("usePlan must be used within a PlanProvider");
   }
-
   return context;
 }
