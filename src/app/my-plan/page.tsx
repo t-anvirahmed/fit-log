@@ -40,16 +40,22 @@ const MyPlanPage = () => {
       <div className="grid grid-cols-1 gap-4 rounded-2xl bg-base-300 p-6 sm:grid-cols-3 sm:p-8">
         <div className="border-b border-slate-600 pb-4 sm:border-b-0 sm:border-r sm:pb-0">
           <p className="text-slate-400">Exercises</p>
-          <h2 className="text-4xl font-bold">{metrics.exercises}</h2>
+          <h2 className="text-4xl font-bold text-[#ccff00]">
+            {metrics.exercises}
+          </h2>
         </div>
 
         <div className="border-b border-slate-600 pb-4 sm:border-b-0 sm:border-r sm:pb-0 sm:pl-6">
           <p className="text-slate-400">Minutes</p>
-          <h2 className="text-4xl font-bold">{metrics.minutes}</h2>
+          <h2 className="text-4xl font-bold text-[#ccff00]">
+            {metrics.minutes}
+          </h2>
         </div>
         <div className="sm:pl-6">
           <p className="text-slate-400">Calories</p>
-          <h2 className="text-4xl font-bold">{metrics.calories}</h2>
+          <h2 className="text-4xl font-bold text-[#ccff00]">
+            {metrics.calories}
+          </h2>
         </div>
       </div>
       <div className="mt-10 flex flex-col justify-between gap-4 border-b border-base-300 pb-4 sm:flex-row sm:items-center">

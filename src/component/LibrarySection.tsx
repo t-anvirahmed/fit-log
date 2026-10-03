@@ -39,7 +39,7 @@ const LibrarySection = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center">
-          <p className="text-slate-400">No workouts found.</p>
+          <p className="text-slate-400">...</p>
         </div>
       )}
     </section>
