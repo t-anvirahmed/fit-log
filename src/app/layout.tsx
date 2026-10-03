@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/component/Navbar";
 import Hero from "@/component/Hero";
 import Footer from "@/component/Footer";
+import { PlanProvider } from "@/context/PlanContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,10 +20,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        <Hero />
-        <div>{children}</div>
-        <Footer />
+        <PlanProvider>
+          <Navbar />
+          <Hero />
+          <main>{children}</main>
+          <Footer />
+        </PlanProvider>
       </body>
     </html>
   );

@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
-import React from "react";
-import Logo from "../assets/logo.png";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Oswald } from "next/font/google";
+
+import Logo from "../assets/logo.png";
+import { usePlan } from "@/context/PlanContext";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -10,18 +14,41 @@ const oswald = Oswald({
 });
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const { plan, saved } = usePlan();
+
   const navLinks = (
     <>
       <li>
-        <Link href="./workouts">Workouts</Link>
+        <Link
+          href="/workouts"
+          className={
+            pathname === "/workouts"
+              ? "text-[#ccff00] bg-[#1A2312] rounded-2xl font-semibold"
+              : "text-gray-400"
+          }
+        >
+          Workouts
+        </Link>
       </li>
+
       <li>
-        <Link href="./myPlans">My Plans</Link>
+        <Link
+          href="/my-plan"
+          className={
+            pathname === "/my-plan"
+              ? "text-[#ccff00] bg-[#1A2312] rounded-2xl font-semibold"
+              : "text-gray-400"
+          }
+        >
+          My Plans
+        </Link>
       </li>
     </>
   );
+
   return (
-    <div className=" border-b border-base-100">
+    <div className="border-b border-base-100">
       <section className="container mx-auto">
         <div className="navbar">
           <div className="navbar-start">
@@ -39,13 +66,12 @@ const Navbar = () => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  {" "}
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
                     d="M4 6h16M4 12h8m-8 6h16"
-                  />{" "}
+                  />
                 </svg>
               </div>
               <ul
@@ -55,9 +81,8 @@ const Navbar = () => {
                 {navLinks}
               </ul>
             </div>
-
-            <Link href="./" className="flex items-center gap-2">
-              <Image src={Logo} alt="fitlog logo"></Image>
+            <Link href="/" className="flex items-center gap-2">
+              <Image src={Logo} alt="Fitlog logo" />
               <h4 className={`${oswald.variable} text-3xl font-bold`}>
                 FITLOG
               </h4>
@@ -66,9 +91,25 @@ const Navbar = () => {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">{navLinks}</ul>
           </div>
-          <div className="navbar-end space-x-3">
-            <button>Plan</button>
-            <button>Saved</button>
+          <div className="navbar-end flex gap-4">
+            <Link
+              href="/my-plan"
+              className="flex items-center gap-2 text-sm font-semibold"
+            >
+              <span>Plan</span>
+              <span className="flex size-6 items-center justify-center rounded-full bg-[#ccff00] font-bold text-black">
+                {plan.length}
+              </span>
+            </Link>
+            <Link
+              href="/my-plan"
+              className="flex items-center gap-2 text-sm font-semibold"
+            >
+              <span>Saved</span>
+              <span className="flex size-6 items-center justify-center rounded-full border font-bold">
+                {saved.length}
+              </span>
+            </Link>
           </div>
         </div>
       </section>
